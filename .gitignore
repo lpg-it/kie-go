@@ -1,0 +1,78 @@
+# ===========================================
+# KIE Go SDK - .gitignore
+# ===========================================
+
+# ------------------------------------------
+# IDE & Editor configurations
+# ------------------------------------------
+
+# GoLand / IntelliJ IDEA
+# Note: .idea/ contains user-specific settings
+.idea/
+
+# VS Code
+.vscode/
+
+# Vim / Neovim
+*.swp
+*.swo
+*~
+
+# ------------------------------------------
+# AI Assistant & Development prompts
+# ------------------------------------------
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# Development prompts (personal use)
+.prompts/
+
+# ------------------------------------------
+# macOS system files
+# ------------------------------------------
+.DS_Store
+
+# ------------------------------------------
+# Go build outputs
+# ------------------------------------------
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# ------------------------------------------
+# Test & Coverage
+# ------------------------------------------
+coverage.txt
+coverage.html
+*.coverprofile
+
+# ------------------------------------------
+# Examples - User test files
+# Users may put their own files here for testing
+# ------------------------------------------
+examples/**/*.jpg
+examples/**/*.jpeg
+examples/**/*.png
+examples/**/*.gif
+examples/**/*.webp
+examples/**/*.mp4
+examples/**/*.mov
+examples/**/*.mp3
+examples/**/*.wav
+
+# ------------------------------------------
+# Environment & Secrets
+# ------------------------------------------
+.env
+.env.local
+.env.*.local
+
+# ------------------------------------------
+# Temporary files
+# ------------------------------------------
+*.tmp
+*.log
