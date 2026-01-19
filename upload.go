@@ -254,8 +254,101 @@ func (u *FileUploader) UploadBase64(ctx context.Context, base64Data string, opts
 	return u.parseResponse(resp, 0)
 }
 
+// UploadStream uploads data from an io.Reader to KIE's temporary storage using
+// multipart/form-data binary transmission. This is the most flexible upload method,
+// suitable for any data source (network streams, memory buffers, pipes, etc.).
+//
+// Unlike UploadBytes which uses Base64 encoding (33% size increase), UploadStream
+// uses efficient binary transmission.
+//
+// The fileName parameter is required and should include the file extension.
+//
+// Example:
+//
+//	// Upload from HTTP response body (without saving to disk)
+//	resp, _ := http.Get("https://example.com/image.jpg")
+//	defer resp.Body.Close()
+//	result, err := uploader.UploadStream(ctx, resp.Body, "image.jpg", nil)
+//
+//	// Upload from memory buffer
+//	buf := bytes.NewReader(imageData)
+//	result, err := uploader.UploadStream(ctx, buf, "photo.png", &kie.UploadOptions{
+//	    UploadPath: "images",
+//	})
+//
+//	// Upload from gzip reader
+//	gzReader, _ := gzip.NewReader(compressedFile)
+//	result, err := uploader.UploadStream(ctx, gzReader, "data.json", nil)
+func (u *FileUploader) UploadStream(ctx context.Context, reader io.Reader, fileName string, opts *UploadOptions) (*UploadResult, error) {
+	if reader == nil {
+		return nil, fmt.Errorf("kie: reader cannot be nil")
+	}
+	if fileName == "" {
+		return nil, fmt.Errorf("kie: fileName is required for stream upload")
+	}
+
+	// Create multipart form
+	var buf bytes.Buffer
+	writer := multipart.NewWriter(&buf)
+
+	// Use custom fileName from opts if provided
+	if opts != nil && opts.FileName != "" {
+		fileName = opts.FileName
+	}
+
+	// Add file part
+	part, err := writer.CreateFormFile("file", fileName)
+	if err != nil {
+		return nil, fmt.Errorf("kie: failed to create form file: %w", err)
+	}
+
+	if _, err := io.Copy(part, reader); err != nil {
+		return nil, fmt.Errorf("kie: failed to copy stream data: %w", err)
+	}
+
+	// Add optional fields
+	if opts != nil {
+		if opts.UploadPath != "" {
+			if err := writer.WriteField("uploadPath", opts.UploadPath); err != nil {
+				return nil, fmt.Errorf("kie: failed to write uploadPath field: %w", err)
+			}
+		}
+		if opts.FileName != "" {
+			if err := writer.WriteField("fileName", opts.FileName); err != nil {
+				return nil, fmt.Errorf("kie: failed to write fileName field: %w", err)
+			}
+		}
+	}
+
+	if err := writer.Close(); err != nil {
+		return nil, fmt.Errorf("kie: failed to close multipart writer: %w", err)
+	}
+
+	// Create request
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost,
+		u.client.baseURL+"/api/file-stream-upload", &buf)
+	if err != nil {
+		return nil, fmt.Errorf("kie: failed to create request: %w", err)
+	}
+
+	req.Header.Set("Authorization", "Bearer "+u.client.apiKey)
+	req.Header.Set("Content-Type", writer.FormDataContentType())
+
+	// Execute request
+	resp, err := u.client.httpClient.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("kie: upload failed: %w", err)
+	}
+	defer resp.Body.Close()
+
+	return u.parseResponse(resp, 0)
+}
+
 // UploadBytes uploads raw bytes to KIE's temporary storage.
 // This is a convenience method for in-memory data.
+//
+// Note: This method uses Base64 encoding which increases data size by ~33%.
+// For large data, consider using UploadStream instead for better efficiency.
 //
 // Example:
 //
