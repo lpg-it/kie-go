@@ -680,6 +680,7 @@ Access via `kie.Image.*` namespace or directly as `kie.*`:
 | `GoogleNanoBanana` | `google/nano-banana` | Text-to-Image |
 | `GoogleNanoBananaEdit` | `google/nano-banana-edit` | Image-Edit |
 | `NanoBananaPro` | `nano-banana-pro` | Text-to-Image |
+| `GoogleNanoBanana2` | `nano-banana-2` | Text-to-Image |
 | `GrokImagineTextToImage` | `grok-imagine/text-to-image` | Text-to-Image |
 | `GrokImagineImageToImage` | `grok-imagine/image-to-image` | Image-to-Image |
 | `GrokImagineUpscale` | `grok-imagine/upscale` | Upscale |
@@ -702,9 +703,12 @@ Access via `kie.Image.*` namespace or directly as `kie.*`:
 | `IdeogramV3Edit` | `ideogram/v3-edit` | Image-Edit |
 | `IdeogramV3Remix` | `ideogram/v3-remix` | Image-to-Image |
 | `BytedanceSeedream` | `bytedance/seedream` | Text-to-Image |
+| `Wan27Image` | `wan/2-7-image` | Text-to-Image |
+| `Wan27ImagePro` | `wan/2-7-image-pro` | Text-to-Image |
 | `QwenImageToImage` | `qwen/image-to-image` | Image-to-Image |
 | `QwenTextToImage` | `qwen/text-to-image` | Text-to-Image |
 | `QwenImageEdit` | `qwen/image-edit` | Image-Edit |
+| `Qwen2ImageEdit` | `qwen2/image-edit` | Image-Edit |
 
 **Usage:**
 
@@ -738,10 +742,17 @@ Access via `kie.Video.*` namespace or directly as `kie.*`:
 | `GrokImagineImageToVideo` | `grok-imagine/image-to-video` | Image-to-Video |
 | `GrokImagineTextToVideo` | `grok-imagine/text-to-video` | Text-to-Video |
 | `Kling26MotionControl` | `kling-2.6/motion-control` | Image-to-Video |
+| `Kling30MotionControl` | `kling-3.0/motion-control` | Image-to-Video |
 | `BytedanceSeedance15Pro` | `bytedance/seedance-1.5-pro` | Text-to-Video |
+| `BytedanceSeedance20Fast` | `bytedance/seedance-2-fast` | Text-to-Video |
+| `BytedanceSeedance20` | `bytedance/seedance-2` | Text-to-Video |
 | `Wan26TextToVideo` | `wan/2-6-text-to-video` | Text-to-Video |
 | `Wan26ImageToVideo` | `wan/2-6-image-to-video` | Image-to-Video |
 | `Wan26VideoToVideo` | `wan/2-6-video-to-video` | Video-to-Video |
+| `Wan27TextToVideo` | `wan/2-7-text-to-video` | Text-to-Video |
+| `Wan27ImageToVideo` | `wan/2-7-image-to-video` | Image-to-Video |
+| `Wan27ReferenceToVideo` | `wan/2-7-r2v` | Text-to-Video |
+| `Wan27VideoEdit` | `wan/2-7-videoedit` | Video-to-Video |
 | `Kling26ImageToVideo` | `kling-2.6/image-to-video` | Image-to-Video |
 | `Kling26TextToVideo` | `kling-2.6/text-to-video` | Text-to-Video |
 | `BytedanceV1ProFastImageToVideo` | `bytedance/v1-pro-fast-image-to-video` | Image-to-Video |

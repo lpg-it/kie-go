@@ -16,6 +16,7 @@ const (
 	TypeBool
 	TypeStringSlice
 	TypeEnum
+	TypeAny
 )
 
 func (t FieldType) String() string {
@@ -32,6 +33,8 @@ func (t FieldType) String() string {
 		return "[]string"
 	case TypeEnum:
 		return "enum"
+	case TypeAny:
+		return "any"
 	default:
 		return "unknown"
 	}
@@ -140,6 +143,15 @@ func Bool(name string, opts ...FieldOption) Field {
 	return f
 }
 
+// Any creates a passthrough field for complex values that should not be schema-validated.
+func Any(name string, opts ...FieldOption) Field {
+	f := Field{Name: name, Type: TypeAny}
+	for _, opt := range opts {
+		opt(&f)
+	}
+	return f
+}
+
 // Validate validates a value against field constraints.
 func (f *Field) Validate(value any) error {
 	// Check required
@@ -177,6 +189,8 @@ func (f *Field) Validate(value any) error {
 		return f.validateStringSlice(value)
 	case TypeEnum:
 		return f.validateEnum(value)
+	case TypeAny:
+		return nil
 	}
 
 	return nil

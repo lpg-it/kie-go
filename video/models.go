@@ -127,6 +127,23 @@ var Kling26MotionControl = model.Define(
 	model.Str("prompt", model.Desc("Text description of the desired output"), model.MaxLen(2500)),
 )
 
+// Kling30MotionControl - Kling 3.0 Motion Control video generation
+var Kling30MotionControl = model.Define(
+	"kling-3.0/motion-control",
+	"Kling 3.0 Motion Control",
+	model.CategoryImageToVideo,
+	model.WithProvider("kling"),
+	model.WithTimeout(20*time.Minute),
+).Required(
+	model.Strings("input_urls", model.Desc("Image URLs showing the subject's head, shoulders, and torso"), model.MaxItems(1)),
+	model.Strings("video_urls", model.Desc("Video URLs for motion reference (3-30 seconds, max 100MB)"), model.MaxItems(1)),
+).Optional(
+	model.Str("prompt", model.Desc("Optional text prompt to guide the animation"), model.MaxLen(2500)),
+	model.Enum("mode", []string{"720p", "1080p", "std", "pro"}, model.Desc("Video quality mode; docs mention std/pro while examples use 720p/1080p"), model.Default("720p")),
+	model.Enum("character_orientation", []string{"video", "image"}, model.Desc("Reference source for character orientation"), model.Default("video")),
+	model.Enum("background_source", []string{"input_video", "input_image"}, model.Desc("Background source for the generated video"), model.Default("input_video")),
+)
+
 // BytedanceSeedance15Pro - Bytedance Seedance 1.5 Pro video generation with audio support
 var BytedanceSeedance15Pro = model.Define(
 	"bytedance/seedance-1.5-pro",
@@ -143,6 +160,54 @@ var BytedanceSeedance15Pro = model.Define(
 	model.Enum("resolution", []string{"480p", "720p"}, model.Desc("Video resolution (Standard 480p or High 720p)"), model.Default("720p")),
 	model.Bool("fixed_lens", model.Desc("Keep camera view static and stable")),
 	model.Bool("generate_audio", model.Desc("Create sound effects for the video (additional cost)")),
+)
+
+// BytedanceSeedance20Fast - Bytedance Seedance 2 Fast video generation
+var BytedanceSeedance20Fast = model.Define(
+	"bytedance/seedance-2-fast",
+	"Bytedance Seedance 2 Fast",
+	model.CategoryTextToVideo,
+	model.WithProvider("bytedance"),
+	model.WithTimeout(20*time.Minute),
+).Required(
+	model.Str("prompt", model.Desc("Text prompt used to generate the video"), model.MaxLen(20000)),
+	model.Bool("web_search", model.Desc("Whether to use online search")),
+).Optional(
+	model.Str("first_frame_url", model.Desc("First frame image URL or asset://assetId"), model.MaxLen(2048)),
+	model.Str("last_frame_url", model.Desc("Last frame image URL or asset://assetId"), model.MaxLen(2048)),
+	model.Strings("reference_image_urls", model.Desc("Reference image URLs or asset://assetId values"), model.MaxItems(9)),
+	model.Strings("reference_video_urls", model.Desc("Reference video URLs or asset://assetId values"), model.MaxItems(3)),
+	model.Strings("reference_audio_urls", model.Desc("Reference audio URLs or asset://assetId values"), model.MaxItems(3)),
+	model.Bool("return_last_frame", model.Desc("Whether to return the last frame as an image"), model.Default(false)),
+	model.Bool("generate_audio", model.Desc("Whether to generate audio for the video"), model.Default(true)),
+	model.Enum("resolution", []string{"480p", "720p"}, model.Desc("Video resolution"), model.Default("720p")),
+	model.Enum("aspect_ratio", []string{"1:1", "4:3", "3:4", "16:9", "9:16", "21:9", "adaptive"}, model.Desc("Aspect ratio of the generated video"), model.Default("16:9")),
+	model.Int("duration", model.Desc("Video duration in seconds"), model.Min(4), model.Max(15), model.Default(5)),
+	model.Bool("nsfw_checker", model.Desc("Disable platform-side NSFW filtering when set to false"), model.Default(false)),
+)
+
+// BytedanceSeedance20 - Bytedance Seedance 2 video generation
+var BytedanceSeedance20 = model.Define(
+	"bytedance/seedance-2",
+	"Bytedance Seedance 2",
+	model.CategoryTextToVideo,
+	model.WithProvider("bytedance"),
+	model.WithTimeout(20*time.Minute),
+).Required(
+	model.Str("prompt", model.Desc("Text prompt used to generate the video"), model.MaxLen(20000)),
+	model.Bool("web_search", model.Desc("Whether to use online search")),
+).Optional(
+	model.Str("first_frame_url", model.Desc("First frame image URL or asset://assetId"), model.MaxLen(2048)),
+	model.Str("last_frame_url", model.Desc("Last frame image URL or asset://assetId"), model.MaxLen(2048)),
+	model.Strings("reference_image_urls", model.Desc("Reference image URLs or asset://assetId values"), model.MaxItems(9)),
+	model.Strings("reference_video_urls", model.Desc("Reference video URLs or asset://assetId values"), model.MaxItems(3)),
+	model.Strings("reference_audio_urls", model.Desc("Reference audio URLs or asset://assetId values"), model.MaxItems(3)),
+	model.Bool("return_last_frame", model.Desc("Whether to return the last frame as an image"), model.Default(false)),
+	model.Bool("generate_audio", model.Desc("Whether to generate audio for the video"), model.Default(true)),
+	model.Enum("resolution", []string{"480p", "720p", "1080p"}, model.Desc("Video resolution"), model.Default("720p")),
+	model.Enum("aspect_ratio", []string{"1:1", "4:3", "3:4", "16:9", "9:16", "21:9", "adaptive"}, model.Desc("Aspect ratio of the generated video"), model.Default("16:9")),
+	model.Int("duration", model.Desc("Video duration in seconds"), model.Min(4), model.Max(15), model.Default(5)),
+	model.Bool("nsfw_checker", model.Desc("Disable platform-side NSFW filtering when set to false"), model.Default(false)),
 )
 
 // Wan26TextToVideo - Wan 2.6 Text to Video generation with multi-shot support
@@ -190,6 +255,97 @@ var Wan26VideoToVideo = model.Define(
 	model.Enum("duration", []string{"5", "10"}, model.Desc("Video duration in seconds"), model.Default("5")),
 	model.Enum("resolution", []string{"720p", "1080p"}, model.Desc("Video resolution"), model.Default("1080p")),
 	model.Bool("multi_shots", model.Desc("Enable multi-shot composition with transitions instead of single continuous shot")),
+)
+
+// Wan27TextToVideo - Wan 2.7 Text To Video generation
+var Wan27TextToVideo = model.Define(
+	"wan/2-7-text-to-video",
+	"Wan 2.7 Text To Video",
+	model.CategoryTextToVideo,
+	model.WithProvider("wan"),
+	model.WithTimeout(20*time.Minute),
+).Required(
+	model.Str("prompt", model.Desc("Text prompt describing the desired video"), model.MaxLen(5000)),
+).Optional(
+	model.Str("negative_prompt", model.Desc("What to exclude from the video"), model.MaxLen(500)),
+	model.Str("audio_url", model.Desc("Optional custom audio URL"), model.MaxLen(2048)),
+	model.Enum("resolution", []string{"720p", "1080p"}, model.Desc("Video resolution"), model.Default("1080p")),
+	model.Enum("ratio", []string{"16:9", "9:16", "1:1", "4:3", "3:4"}, model.Desc("Aspect ratio of the generated video"), model.Default("16:9")),
+	model.Int("duration", model.Desc("Video duration in seconds"), model.Min(2), model.Max(15), model.Default(5)),
+	model.Bool("prompt_extend", model.Desc("Enable intelligent prompt rewriting"), model.Default(true)),
+	model.Bool("watermark", model.Desc("Whether to add an AI-generated watermark"), model.Default(false)),
+	model.Int("seed", model.Desc("Random seed for reproducibility"), model.Min(0), model.Max(2147483647)),
+	model.Bool("nsfw_checker", model.Desc("Disable platform-side NSFW filtering when set to false"), model.Default(false)),
+)
+
+// Wan27ImageToVideo - Wan 2.7 Image To Video generation
+var Wan27ImageToVideo = model.Define(
+	"wan/2-7-image-to-video",
+	"Wan 2.7 Image To Video",
+	model.CategoryImageToVideo,
+	model.WithProvider("wan"),
+	model.WithTimeout(20*time.Minute),
+).Required(
+	model.Str("prompt", model.Desc("Text prompt describing the desired video"), model.MaxLen(5000)),
+).Optional(
+	model.Str("negative_prompt", model.Desc("What to exclude from the video"), model.MaxLen(500)),
+	model.Str("first_frame_url", model.Desc("First frame image URL"), model.MaxLen(2048)),
+	model.Str("last_frame_url", model.Desc("Last frame image URL"), model.MaxLen(2048)),
+	model.Str("first_clip_url", model.Desc("First clip video URL for continuation mode"), model.MaxLen(2048)),
+	model.Str("driving_audio_url", model.Desc("Driving audio URL"), model.MaxLen(2048)),
+	model.Enum("resolution", []string{"720p", "1080p"}, model.Desc("Video resolution"), model.Default("1080p")),
+	model.Int("duration", model.Desc("Total output video duration in seconds"), model.Min(2), model.Max(15), model.Default(5)),
+	model.Bool("prompt_extend", model.Desc("Enable intelligent prompt rewriting"), model.Default(true)),
+	model.Bool("watermark", model.Desc("Whether to add an AI-generated watermark"), model.Default(false)),
+	model.Int("seed", model.Desc("Random seed for reproducibility"), model.Min(0), model.Max(2147483647)),
+	model.Bool("nsfw_checker", model.Desc("Disable platform-side NSFW filtering when set to false"), model.Default(false)),
+)
+
+// Wan27ReferenceToVideo - Wan 2.7 Reference To Video generation
+var Wan27ReferenceToVideo = model.Define(
+	"wan/2-7-r2v",
+	"Wan 2.7 Reference To Video",
+	model.CategoryTextToVideo,
+	model.WithProvider("wan"),
+	model.WithTimeout(20*time.Minute),
+).Required(
+	model.Str("prompt", model.Desc("Text prompt describing the desired video"), model.MaxLen(5000)),
+).Optional(
+	model.Str("negative_prompt", model.Desc("What to exclude from the video"), model.MaxLen(500)),
+	model.Strings("reference_image", model.Desc("Reference image URLs; provide at least one reference image or video"), model.MaxItems(5)),
+	model.Strings("reference_video", model.Desc("Reference video URLs; provide at least one reference image or video"), model.MaxItems(5)),
+	model.Str("first_frame", model.Desc("First frame image URL"), model.MaxLen(2048)),
+	model.Str("reference_voice", model.Desc("Reference audio URL used to control voice timbre"), model.MaxLen(2048)),
+	model.Enum("resolution", []string{"720p", "1080p"}, model.Desc("Video resolution"), model.Default("1080p")),
+	model.Enum("aspect_ratio", []string{"16:9", "9:16", "1:1", "4:3", "3:4"}, model.Desc("Aspect ratio of the generated video"), model.Default("16:9")),
+	model.Int("duration", model.Desc("Output video duration in seconds"), model.Min(2), model.Max(10), model.Default(5)),
+	model.Bool("prompt_extend", model.Desc("Enable intelligent prompt rewriting"), model.Default(true)),
+	model.Bool("watermark", model.Desc("Whether to add an AI-generated watermark"), model.Default(false)),
+	model.Int("seed", model.Desc("Random seed for reproducibility"), model.Min(0), model.Max(2147483647)),
+	model.Bool("nsfw_checker", model.Desc("Disable platform-side NSFW filtering when set to false"), model.Default(false)),
+)
+
+// Wan27VideoEdit - Wan 2.7 Video Edit generation
+var Wan27VideoEdit = model.Define(
+	"wan/2-7-videoedit",
+	"Wan 2.7 Video Edit",
+	model.CategoryVideoToVideo,
+	model.WithProvider("wan"),
+	model.WithTimeout(20*time.Minute),
+).Required(
+	model.Str("video_url", model.Desc("Source video URL to edit"), model.MaxLen(2048)),
+).Optional(
+	model.Str("prompt", model.Desc("Text prompt describing the desired edit"), model.MaxLen(5000)),
+	model.Str("negative_prompt", model.Desc("What to exclude from the edited video"), model.MaxLen(500)),
+	model.Str("reference_image", model.Desc("Reference image URL for character, clothing, or style guidance"), model.MaxLen(2048)),
+	model.Enum("resolution", []string{"720p", "1080p"}, model.Desc("Output video resolution"), model.Default("1080p")),
+	model.Enum("aspect_ratio", []string{"16:9", "9:16", "1:1", "4:3", "3:4"}, model.Desc("Output video aspect ratio")),
+	model.Int("duration", model.Desc("Output video duration in seconds; 0 keeps the full input length"), model.Min(0), model.Max(10), model.Default(0)),
+	model.Enum("audio_setting", []string{"auto", "origin"}, model.Desc("Audio handling mode"), model.Default("auto")),
+	model.Bool("prompt_extend", model.Desc("Enable intelligent prompt rewriting"), model.Default(true)),
+	model.Bool("watermark", model.Desc("Whether to add an AI-generated watermark"), model.Default(false)),
+	model.Int("seed", model.Desc("Random seed for reproducibility"), model.Min(0), model.Max(2147483647)),
+	model.Bool("nsfw_checker", model.Desc("Disable platform-side NSFW filtering when set to false"), model.Default(false)),
 )
 
 // Kling26ImageToVideo - Kling 2.6 Image to Video generation with sound support
@@ -249,10 +405,17 @@ var Models = []*model.Model{
 	GrokImagineImageToVideo,
 	GrokImagineTextToVideo,
 	Kling26MotionControl,
+	Kling30MotionControl,
 	BytedanceSeedance15Pro,
+	BytedanceSeedance20Fast,
+	BytedanceSeedance20,
 	Wan26TextToVideo,
 	Wan26ImageToVideo,
 	Wan26VideoToVideo,
+	Wan27TextToVideo,
+	Wan27ImageToVideo,
+	Wan27ReferenceToVideo,
+	Wan27VideoEdit,
 	Kling26ImageToVideo,
 	Kling26TextToVideo,
 	BytedanceV1ProFastImageToVideo,

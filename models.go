@@ -67,6 +67,7 @@ var Image = struct {
 	GoogleNanoBanana               *Model
 	GoogleNanoBananaEdit           *Model
 	NanoBananaPro                  *Model
+	GoogleNanoBanana2              *Model
 	GrokImagineTextToImage         *Model
 	GrokImagineImageToImage        *Model
 	GrokImagineUpscale             *Model
@@ -89,9 +90,12 @@ var Image = struct {
 	IdeogramV3Edit                 *Model
 	IdeogramV3Remix                *Model
 	BytedanceSeedream              *Model
+	Wan27Image                     *Model
+	Wan27ImagePro                  *Model
 	QwenImageToImage               *Model
 	QwenTextToImage                *Model
 	QwenImageEdit                  *Model
+	Qwen2ImageEdit                 *Model
 }{
 	GoogleImagen4:                  image.GoogleImagen4,
 	GoogleImagen4Fast:              image.GoogleImagen4Fast,
@@ -99,6 +103,7 @@ var Image = struct {
 	GoogleNanoBanana:               image.GoogleNanoBanana,
 	GoogleNanoBananaEdit:           image.GoogleNanoBananaEdit,
 	NanoBananaPro:                  image.NanoBananaPro,
+	GoogleNanoBanana2:              image.GoogleNanoBanana2,
 	GrokImagineTextToImage:         image.GrokImagineTextToImage,
 	GrokImagineImageToImage:        image.GrokImagineImageToImage,
 	GrokImagineUpscale:             image.GrokImagineUpscale,
@@ -121,9 +126,12 @@ var Image = struct {
 	IdeogramV3Edit:                 image.IdeogramV3Edit,
 	IdeogramV3Remix:                image.IdeogramV3Remix,
 	BytedanceSeedream:              image.BytedanceSeedream,
+	Wan27Image:                     image.Wan27Image,
+	Wan27ImagePro:                  image.Wan27ImagePro,
 	QwenImageToImage:               image.QwenImageToImage,
 	QwenTextToImage:                image.QwenTextToImage,
 	QwenImageEdit:                  image.QwenImageEdit,
+	Qwen2ImageEdit:                 image.Qwen2ImageEdit,
 }
 
 // VideoModels provides access to all video generation models.
@@ -136,10 +144,17 @@ var Video = struct {
 	GrokImagineImageToVideo        *Model
 	GrokImagineTextToVideo         *Model
 	Kling26MotionControl           *Model
+	Kling30MotionControl           *Model
 	BytedanceSeedance15Pro         *Model
+	BytedanceSeedance20Fast        *Model
+	BytedanceSeedance20            *Model
 	Wan26TextToVideo               *Model
 	Wan26ImageToVideo              *Model
 	Wan26VideoToVideo              *Model
+	Wan27TextToVideo               *Model
+	Wan27ImageToVideo              *Model
+	Wan27ReferenceToVideo          *Model
+	Wan27VideoEdit                 *Model
 	Kling26ImageToVideo            *Model
 	Kling26TextToVideo             *Model
 	BytedanceV1ProFastImageToVideo *Model
@@ -186,10 +201,17 @@ var Video = struct {
 	GrokImagineImageToVideo:        video.GrokImagineImageToVideo,
 	GrokImagineTextToVideo:         video.GrokImagineTextToVideo,
 	Kling26MotionControl:           video.Kling26MotionControl,
+	Kling30MotionControl:           video.Kling30MotionControl,
 	BytedanceSeedance15Pro:         video.BytedanceSeedance15Pro,
+	BytedanceSeedance20Fast:        video.BytedanceSeedance20Fast,
+	BytedanceSeedance20:            video.BytedanceSeedance20,
 	Wan26TextToVideo:               video.Wan26TextToVideo,
 	Wan26ImageToVideo:              video.Wan26ImageToVideo,
 	Wan26VideoToVideo:              video.Wan26VideoToVideo,
+	Wan27TextToVideo:               video.Wan27TextToVideo,
+	Wan27ImageToVideo:              video.Wan27ImageToVideo,
+	Wan27ReferenceToVideo:          video.Wan27ReferenceToVideo,
+	Wan27VideoEdit:                 video.Wan27VideoEdit,
 	Kling26ImageToVideo:            video.Kling26ImageToVideo,
 	Kling26TextToVideo:             video.Kling26TextToVideo,
 	BytedanceV1ProFastImageToVideo: video.BytedanceV1ProFastImageToVideo,
@@ -241,6 +263,7 @@ var (
 	GoogleNanoBanana               = image.GoogleNanoBanana
 	GoogleNanoBananaEdit           = image.GoogleNanoBananaEdit
 	NanoBananaPro                  = image.NanoBananaPro
+	GoogleNanoBanana2              = image.GoogleNanoBanana2
 	GrokImagineTextToImage         = image.GrokImagineTextToImage
 	GrokImagineImageToImage        = image.GrokImagineImageToImage
 	GrokImagineUpscale             = image.GrokImagineUpscale
@@ -263,9 +286,12 @@ var (
 	IdeogramV3Edit                 = image.IdeogramV3Edit
 	IdeogramV3Remix                = image.IdeogramV3Remix
 	BytedanceSeedream              = image.BytedanceSeedream
+	Wan27Image                     = image.Wan27Image
+	Wan27ImagePro                  = image.Wan27ImagePro
 	QwenImageToImage               = image.QwenImageToImage
 	QwenTextToImage                = image.QwenTextToImage
 	QwenImageEdit                  = image.QwenImageEdit
+	Qwen2ImageEdit                 = image.Qwen2ImageEdit
 )
 
 // Video Models - Direct access without namespace
@@ -278,10 +304,17 @@ var (
 	GrokImagineImageToVideo        = video.GrokImagineImageToVideo
 	GrokImagineTextToVideo         = video.GrokImagineTextToVideo
 	Kling26MotionControl           = video.Kling26MotionControl
+	Kling30MotionControl           = video.Kling30MotionControl
 	BytedanceSeedance15Pro         = video.BytedanceSeedance15Pro
+	BytedanceSeedance20Fast        = video.BytedanceSeedance20Fast
+	BytedanceSeedance20            = video.BytedanceSeedance20
 	Wan26TextToVideo               = video.Wan26TextToVideo
 	Wan26ImageToVideo              = video.Wan26ImageToVideo
 	Wan26VideoToVideo              = video.Wan26VideoToVideo
+	Wan27TextToVideo               = video.Wan27TextToVideo
+	Wan27ImageToVideo              = video.Wan27ImageToVideo
+	Wan27ReferenceToVideo          = video.Wan27ReferenceToVideo
+	Wan27VideoEdit                 = video.Wan27VideoEdit
 	Kling26ImageToVideo            = video.Kling26ImageToVideo
 	Kling26TextToVideo             = video.Kling26TextToVideo
 	BytedanceV1ProFastImageToVideo = video.BytedanceV1ProFastImageToVideo

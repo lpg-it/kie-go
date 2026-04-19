@@ -102,6 +102,22 @@ var NanoBananaPro = model.Define(
 	model.Enum("output_format", []string{"png", "jpg"}, model.Desc("Format of the output image"), model.Default("png")),
 )
 
+// GoogleNanoBanana2 - Google Nano Banana 2 image generation and editing
+var GoogleNanoBanana2 = model.Define(
+	"nano-banana-2",
+	"Google Nano Banana 2",
+	model.CategoryTextToImage,
+	model.WithProvider("google"),
+	model.WithTimeout(10*time.Minute),
+).Required(
+	model.Str("prompt", model.Desc("Text description of the image to generate or edit"), model.MaxLen(20000)),
+).Optional(
+	model.Strings("image_input", model.Desc("Input images to transform or use as reference"), model.MaxItems(14)),
+	model.Enum("aspect_ratio", []string{"1:1", "1:4", "1:8", "2:3", "3:2", "3:4", "4:1", "4:3", "4:5", "5:4", "8:1", "9:16", "16:9", "21:9", "auto"}, model.Desc("Aspect ratio of the generated image"), model.Default("auto")),
+	model.Enum("resolution", []string{"1K", "2K", "4K"}, model.Desc("Resolution of the generated image"), model.Default("1K")),
+	model.Enum("output_format", []string{"png", "jpg"}, model.Desc("Format of the output image"), model.Default("jpg")),
+)
+
 // GrokImagineTextToImage - Text to image generation
 var GrokImagineTextToImage = model.Define(
 	"grok-imagine/text-to-image",
@@ -215,6 +231,52 @@ var BytedanceSeedream = model.Define(
 	model.Bool("enable_safety_checker", model.Desc("If set to true, the safety checker will be enabled"), model.Default(true)),
 )
 
+// Wan27Image - Wan 2.7 Image generation and editing
+var Wan27Image = model.Define(
+	"wan/2-7-image",
+	"Wan 2.7 Image",
+	model.CategoryTextToImage,
+	model.WithProvider("wan"),
+	model.WithTimeout(10*time.Minute),
+).Required(
+	model.Str("prompt", model.Desc("Prompt for image generation or editing"), model.MaxLen(5000)),
+).Optional(
+	model.Strings("input_urls", model.Desc("Optional input image URLs for editing"), model.MaxItems(9)),
+	model.Enum("aspect_ratio", []string{"1:1", "16:9", "4:3", "21:9", "3:4", "9:16", "8:1", "1:8", " 1:8 "}, model.Desc("Output aspect ratio when no input image is provided")),
+	model.Bool("enable_sequential", model.Desc("Enable sequential or group image mode"), model.Default(false)),
+	model.Int("n", model.Desc("Number of images to generate (1-4 normally, up to 12 with sequential mode)"), model.Min(1), model.Max(12)),
+	model.Enum("resolution", []string{"1K", "2K", "4K"}, model.Desc("Output resolution"), model.Default("2K")),
+	model.Bool("thinking_mode", model.Desc("Enable thinking mode when supported"), model.Default(false)),
+	model.Any("color_palette", model.Desc("Optional custom color theme array with 3-10 {hex, ratio} objects")),
+	model.Any("bbox_list", model.Desc("Optional interactive editing bounding boxes aligned with input_urls")),
+	model.Bool("watermark", model.Desc("Whether to add watermark"), model.Default(false)),
+	model.Int("seed", model.Desc("Random seed for reproducibility"), model.Min(0), model.Max(2147483647), model.Default(0)),
+	model.Bool("nsfw_checker", model.Desc("Disable platform-side NSFW filtering when set to false"), model.Default(false)),
+)
+
+// Wan27ImagePro - Wan 2.7 Image Pro generation and editing
+var Wan27ImagePro = model.Define(
+	"wan/2-7-image-pro",
+	"Wan 2.7 Image Pro",
+	model.CategoryTextToImage,
+	model.WithProvider("wan"),
+	model.WithTimeout(10*time.Minute),
+).Required(
+	model.Str("prompt", model.Desc("Prompt for image generation or editing"), model.MaxLen(5000)),
+).Optional(
+	model.Strings("input_urls", model.Desc("Optional input image URLs for editing"), model.MaxItems(9)),
+	model.Enum("aspect_ratio", []string{"1:1", "16:9", "4:3", "21:9", "3:4", "9:16", "8:1", "1:8", " 1:8 "}, model.Desc("Output aspect ratio when no input image is provided")),
+	model.Bool("enable_sequential", model.Desc("Enable sequential or group image mode"), model.Default(false)),
+	model.Int("n", model.Desc("Number of images to generate (1-4 normally, up to 12 with sequential mode)"), model.Min(1), model.Max(12)),
+	model.Enum("resolution", []string{"1K", "2K", "4K"}, model.Desc("Output resolution"), model.Default("2K")),
+	model.Bool("thinking_mode", model.Desc("Enable thinking mode when supported"), model.Default(false)),
+	model.Any("color_palette", model.Desc("Optional custom color theme array with 3-10 {hex, ratio} objects")),
+	model.Any("bbox_list", model.Desc("Optional interactive editing bounding boxes aligned with input_urls")),
+	model.Bool("watermark", model.Desc("Whether to add watermark"), model.Default(false)),
+	model.Int("seed", model.Desc("Random seed for reproducibility"), model.Min(0), model.Max(2147483647), model.Default(0)),
+	model.Bool("nsfw_checker", model.Desc("Disable platform-side NSFW filtering when set to false"), model.Default(false)),
+)
+
 // QwenImageToImage - Qwen Image to Image transformation
 var QwenImageToImage = model.Define(
 	"qwen/image-to-image",
@@ -254,6 +316,7 @@ var QwenTextToImage = model.Define(
 	model.Enum("output_format", []string{"png", "jpeg"}, model.Desc("The format of the generated image"), model.Default("png")),
 	model.Str("negative_prompt", model.Desc("The negative prompt for the generation"), model.MaxLen(500)),
 	model.Enum("acceleration", []string{"none", "regular", "high"}, model.Desc("Acceleration level for image generation"), model.Default("none")),
+	model.Bool("nsfw_checker", model.Desc("Disable platform-side NSFW filtering when set to false"), model.Default(false)),
 )
 
 // QwenImageEdit - Qwen Image Edit
@@ -277,6 +340,23 @@ var QwenImageEdit = model.Define(
 	model.Bool("enable_safety_checker", model.Desc("Enable or disable safety checker"), model.Default(true)),
 	model.Enum("output_format", []string{"jpeg", "png"}, model.Desc("The format of the generated image"), model.Default("png")),
 	model.Str("negative_prompt", model.Desc("The negative prompt for the generation"), model.MaxLen(500)),
+)
+
+// Qwen2ImageEdit - Qwen2 Image Edit
+var Qwen2ImageEdit = model.Define(
+	"qwen2/image-edit",
+	"Qwen2 Image Edit",
+	model.CategoryImageEdit,
+	model.WithProvider("qwen"),
+	model.WithTimeout(10*time.Minute),
+).Required(
+	model.Str("prompt", model.Desc("The prompt to generate the image with"), model.MaxLen(800)),
+	model.Str("image_url", model.Desc("The URL of the image to edit")),
+).Optional(
+	model.Enum("image_size", []string{"1:1", "2:3", "3:2", "3:4", "4:3", "9:16", "16:9", "21:9"}, model.Desc("The size of the generated image"), model.Default("16:9")),
+	model.Int("seed", model.Desc("Random seed for reproducibility")),
+	model.Enum("output_format", []string{"jpeg", "png"}, model.Desc("The format of the generated image"), model.Default("png")),
+	model.Bool("nsfw_checker", model.Desc("Disable platform-side NSFW filtering when set to false"), model.Default(false)),
 )
 
 // RecraftCrispUpscale - Recraft Crisp Upscale
@@ -491,6 +571,7 @@ var Models = []*model.Model{
 	GoogleNanoBanana,
 	GoogleNanoBananaEdit,
 	NanoBananaPro,
+	GoogleNanoBanana2,
 	GrokImagineTextToImage,
 	GrokImagineImageToImage,
 	GrokImagineUpscale,
@@ -513,9 +594,12 @@ var Models = []*model.Model{
 	IdeogramV3Edit,
 	IdeogramV3Remix,
 	BytedanceSeedream,
+	Wan27Image,
+	Wan27ImagePro,
 	QwenImageToImage,
 	QwenTextToImage,
 	QwenImageEdit,
+	Qwen2ImageEdit,
 }
 
 // Get returns an image model by identifier.
