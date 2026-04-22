@@ -420,6 +420,35 @@ var GptImage15TextToImage = model.Define(
 	model.Enum("quality", []string{"medium", "high"}, model.Desc("Quality: medium=balanced, high=slow/detailed"), model.Default("medium")),
 )
 
+// GptImage2TextToImage - GPT Image 2 Text To Image
+var GptImage2TextToImage = model.Define(
+	"gpt-image-2-text-to-image",
+	"GPT Image 2 Text To Image",
+	model.CategoryTextToImage,
+	model.WithProvider("gpt-image"),
+	model.WithTimeout(10*time.Minute),
+).Required(
+	model.Str("prompt", model.Desc("Text prompt used to generate the image"), model.MaxLen(20000)),
+).Optional(
+	model.Enum("aspect_ratio", []string{"auto", "1:1", "5:4", "9:16", "21:9", "16:9", "4:3", "3:2", "4:5", "3:4", "2:3"}, model.Desc("Aspect ratio of the generated image"), model.Default("auto")),
+	model.Bool("nsfw_checker", model.Desc("Disable platform-side NSFW filtering when set to false"), model.Default(false)),
+)
+
+// GptImage2ImageToImage - GPT Image 2 Image To Image
+var GptImage2ImageToImage = model.Define(
+	"gpt-image-2-image-to-image",
+	"GPT Image 2 Image To Image",
+	model.CategoryImageToImage,
+	model.WithProvider("gpt-image"),
+	model.WithTimeout(10*time.Minute),
+).Required(
+	model.Str("prompt", model.Desc("Text prompt used to transform the input images"), model.MaxLen(20000)),
+	model.Strings("input_urls", model.Desc("Input image URLs"), model.MaxItems(16)),
+).Optional(
+	model.Enum("aspect_ratio", []string{"auto", "1:1", "5:4", "9:16", "21:9", "16:9", "4:3", "3:2", "4:5", "3:4", "2:3"}, model.Desc("Aspect ratio of the generated image"), model.Default("auto")),
+	model.Bool("nsfw_checker", model.Desc("Disable platform-side NSFW filtering when set to false"), model.Default(false)),
+)
+
 // ZImage - Z Image text to image generation
 var ZImage = model.Define(
 	"z-image",
@@ -584,6 +613,8 @@ var Models = []*model.Model{
 	TopazImageUpscale,
 	GptImage15ImageToImage,
 	GptImage15TextToImage,
+	GptImage2ImageToImage,
+	GptImage2TextToImage,
 	ZImage,
 	Flux2ProImageToImage,
 	Flux2FlexImageToImage,

@@ -693,6 +693,8 @@ Access via `kie.Image.*` namespace or directly as `kie.*`:
 | `TopazImageUpscale` | `topaz/image-upscale` | Upscale |
 | `GptImage15ImageToImage` | `gpt-image/1.5-image-to-image` | Image-to-Image |
 | `GptImage15TextToImage` | `gpt-image/1.5-text-to-image` | Text-to-Image |
+| `GptImage2ImageToImage` | `gpt-image-2-image-to-image` | Image-to-Image |
+| `GptImage2TextToImage` | `gpt-image-2-text-to-image` | Text-to-Image |
 | `ZImage` | `z-image` | Text-to-Image |
 | `Flux2ProImageToImage` | `flux-2/pro-image-to-image` | Image-to-Image |
 | `Flux2FlexImageToImage` | `flux-2/flex-image-to-image` | Image-to-Image |

@@ -80,6 +80,8 @@ var Image = struct {
 	TopazImageUpscale              *Model
 	GptImage15ImageToImage         *Model
 	GptImage15TextToImage          *Model
+	GptImage2ImageToImage          *Model
+	GptImage2TextToImage           *Model
 	ZImage                         *Model
 	Flux2ProImageToImage           *Model
 	Flux2FlexImageToImage          *Model
@@ -116,6 +118,8 @@ var Image = struct {
 	TopazImageUpscale:              image.TopazImageUpscale,
 	GptImage15ImageToImage:         image.GptImage15ImageToImage,
 	GptImage15TextToImage:          image.GptImage15TextToImage,
+	GptImage2ImageToImage:          image.GptImage2ImageToImage,
+	GptImage2TextToImage:           image.GptImage2TextToImage,
 	ZImage:                         image.ZImage,
 	Flux2ProImageToImage:           image.Flux2ProImageToImage,
 	Flux2FlexImageToImage:          image.Flux2FlexImageToImage,
@@ -276,6 +280,8 @@ var (
 	TopazImageUpscale              = image.TopazImageUpscale
 	GptImage15ImageToImage         = image.GptImage15ImageToImage
 	GptImage15TextToImage          = image.GptImage15TextToImage
+	GptImage2ImageToImage          = image.GptImage2ImageToImage
+	GptImage2TextToImage           = image.GptImage2TextToImage
 	ZImage                         = image.ZImage
 	Flux2ProImageToImage           = image.Flux2ProImageToImage
 	Flux2FlexImageToImage          = image.Flux2FlexImageToImage

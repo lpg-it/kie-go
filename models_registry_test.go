@@ -5,6 +5,8 @@ import "testing"
 func TestNewModelsAreRegistered(t *testing.T) {
 	cases := []*Model{
 		GoogleNanoBanana2,
+		GptImage2ImageToImage,
+		GptImage2TextToImage,
 		Wan27Image,
 		Wan27ImagePro,
 		Qwen2ImageEdit,
@@ -38,6 +40,21 @@ func TestNewModelsValidateRepresentativeInputs(t *testing.T) {
 			model: GoogleNanoBanana2,
 			params: Params{
 				"prompt": "A comic poster with a banana hero.",
+			},
+		},
+		{
+			name:  "gpt image 2 text to image",
+			model: GptImage2TextToImage,
+			params: Params{
+				"prompt": "A cinematic night city poster with neon reflections on a rainy street.",
+			},
+		},
+		{
+			name:  "gpt image 2 image to image",
+			model: GptImage2ImageToImage,
+			params: Params{
+				"prompt":     "Transform this product image into a premium e-commerce poster style.",
+				"input_urls": []string{"https://example.com/input.png"},
 			},
 		},
 		{
